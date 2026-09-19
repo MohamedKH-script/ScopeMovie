@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* Design tokens -> become Tailwind classes:
+   bg-bg, bg-surface, bg-surface-2, border-line, text-muted, text-dim,
+   bg-accent, hover:bg-accent-hover, text-gold, font-sans */
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --color-bg: #0b0b10;
+  --color-surface: #15151d;
+  --color-surface-2: #1c1c26;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-accent: #7c5cff;
+  --color-accent-hover: #8d72ff;
+  --color-muted: #9ca3af;
+  --color-dim: #6b7280;
+  --color-gold: #ffc107;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg font-sans text-white antialiased;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+@utility text-gradient {
+  @apply bg-linear-to-r from-[#DC90F2] to-[#9C8FF2] bg-clip-text text-transparent;
+}
