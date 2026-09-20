@@ -12,7 +12,7 @@ function Header(){
         {label: 'My List' , to:'/my-list'},
     ];
     return(
-        <header className="sticky mt-4 top-0 z-50 h-[72px] border-b border-line bg-bg/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-50 h-[72px] border-b border-line bg-bg/80 backdrop-blur-xl">
             <div className={`${container} grid h-full grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}>
             <Logo />
             <nav className="hidden items-center gap-8 lg:flex">
