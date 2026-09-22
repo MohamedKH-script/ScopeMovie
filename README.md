@@ -8,7 +8,7 @@ ScopeMovie is a movie and TV show discovery web app built with React, Vite and T
 - [x] Home page with trending movies
 - [x] Live movie search
 - [x] Poster fallback and loading/error states
-- [ ] Movies page with genre sections
+- [x] Movies page with genre sections
 - [ ] TV Shows page with genre sections
 - [ ] Sign up / Sign in
 - [ ] My List (save favorites)
