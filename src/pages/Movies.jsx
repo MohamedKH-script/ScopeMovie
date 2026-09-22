@@ -80,7 +80,7 @@ function Movies(){
                         />
                         )
                     ))}
-                    {console.log(movies)}
+
                 </div>
             </section>
             <section className={container}>
@@ -91,7 +91,7 @@ function Movies(){
                 onSeeAll={currentGenre ? null : () => setCurrentGenre(id)}
                 />
                 <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                    {(movies[id] || []).slice(0, currentGenre ? 40 : 10).map((movie) => (
+                    {(movies[id] || []).slice(0, currentGenre ? 20 : 10).map((movie) => (
                     <MovieCard key={movie.id} movie={movie} />
                     ))}
                 </div>

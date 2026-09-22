@@ -11,12 +11,18 @@
   --color-surface-2: #1c1c26;
   --color-line: rgb(255 255 255 / 0.08);
   --color-accent: #7c5cff;
+  --color-on-accent: #ffffff; 
   --color-accent-hover: #8d72ff;
   --color-muted: #9ca3af;
   --color-dim: #6b7280;
   --color-gold: #ffc107;
 }
 
+[data-theme="tv"] {
+  --color-accent: #38bdf8;         /* light blue */
+  --color-accent-hover: #7dd3fc;
+  --color-on-accent: #0b0b10;      /* dark text, since white is hard to read on light blue */
+}
 @layer base {
   html {
     scroll-behavior: smooth;

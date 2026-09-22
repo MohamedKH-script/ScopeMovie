@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom"
+import { NavLink , Link } from "react-router-dom"
+import { useAuth } from "../Context/AuthContext"
 import Logo from "./Logo"
 import SecondaryButton from './SecondaryButton'
 import PrimaryButton from './PrimaryButton'
@@ -11,6 +12,7 @@ function Header(){
         {label: 'TV Shows' , to:'/tv'},
         {label: 'My List' , to:'/my-list'},
     ];
+    const {user , isLoading , logout}=useAuth()
     return(
         <header className="sticky top-0 z-50 h-[72px] border-b border-line bg-bg/80 backdrop-blur-xl">
             <div className={`${container} grid h-full grid-cols-[1fr_auto] items-center lg:grid-cols-[1fr_auto_1fr]`}>
@@ -30,8 +32,17 @@ function Header(){
                 ))}
             </nav>
             <div className="flex items-center justify-end gap-2">
-                <SecondaryButton name="Sign In"/>
-                <PrimaryButton name="Sign Up"/>
+                {isLoading ? null : user ? (
+                    <>
+                    <span className="text-[13px] text-muted">{user.email}</span>
+                    <SecondaryButton name="Log out" onClick={logout} />
+                    </>
+                ) : (
+                    <>
+                    <Link to="/login"><SecondaryButton name="Sign In" /></Link>
+                    <Link to="/signup"><PrimaryButton name="Sign Up" /></Link>
+                    </>
+                )}
             </div>
             </div>
         </header>
