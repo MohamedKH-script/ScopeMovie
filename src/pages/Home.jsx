@@ -3,6 +3,8 @@ import Search from '../Components/Search'
 import Spinner from '../Components/Spinner'
 import MovieCard from '../Components/MovieCard'
 import { API_BASE_URL, API_OPTIONS } from '../Api'
+import { useFavoriteIds } from '../hooks/useFavoriteIds' // NEW
+
 function Home(){
   const [searchTerm , setSearchTerm] = useState('');
   const [debouncedTerm, setDebouncedTerm] = useState('')
@@ -10,6 +12,7 @@ function Home(){
   const [movieList , setMovieList] = useState([]);
   const [isLoading , setIsLoading] = useState(false);
   const container = "mx-auto w-full max-w-[1240px] px-4 sm:px-6"
+  const { favoriteIds } = useFavoriteIds() // NEW
 
   const fetchMovies = async(query='')=>{
     setIsLoading(true)
@@ -69,7 +72,12 @@ function Home(){
         <h2 className="mb-7 text-[22px] font-bold tracking-tight">{debouncedTerm ? `Search for ${debouncedTerm}` : "Popular Movies"}</h2>
           {isLoading ? <Spinner /> : (
         <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:grid-cols-5">
-          {movieList.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+          {movieList.map((movie) => (
+            <MovieCard
+              key={movie.id}
+              movie={{ ...movie, is_favorite: favoriteIds.has(`movie:${movie.id}`) }} // CHANGED
+            />
+          ))}
         </div>
   )}
       </section>

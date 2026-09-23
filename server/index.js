@@ -125,6 +125,52 @@ app.get("/api/me", requireAuth, async (req, res) => {
     res.status(500).json({ error: "Something went wrong" })
   }
 })
+// --- Get everything in the current user's list ---
+app.get("/api/favorites", requireAuth, async (req, res) => {
+  try {
+    const { rows } = await db.query(
+      "SELECT * FROM favorites WHERE user_id = $1 ORDER BY created_at DESC",
+      [req.session.userId]
+    )
+    res.json(rows)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: "Something went wrong" })
+  }
+})
+
+// --- Add an item ---
+app.post("/api/favorites", requireAuth, async (req, res) => {
+  const { tmdb_id, media_type, title, poster_path, vote_average, release_date, original_language } = req.body
+
+  try {
+    const { rows } = await db.query(
+      `INSERT INTO favorites (user_id, tmdb_id, media_type, title, poster_path, vote_average, release_date, original_language)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       ON CONFLICT (user_id, tmdb_id, media_type) DO NOTHING
+       RETURNING *`,
+      [req.session.userId, tmdb_id, media_type, title, poster_path, vote_average, release_date, original_language]
+    )
+    res.status(201).json(rows[0] ?? null) // null if it was already saved
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: "Something went wrong" })
+  }
+})
+
+app.delete("/api/favorites/:mediaType/:tmdbId", requireAuth, async (req, res) => {
+  const { mediaType, tmdbId } = req.params
+  try {
+    await db.query(
+      "DELETE FROM favorites WHERE user_id = $1 AND tmdb_id = $2 AND media_type = $3",
+      [req.session.userId, tmdbId, mediaType]
+    )
+    res.json({ ok: true })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: "Something went wrong" })
+  }
+})
 
 // STEP 7: Start listening --------------------------------------------------
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`))

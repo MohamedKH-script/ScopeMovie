@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { API_BASE_URL, API_OPTIONS } from '../Api'
 import TvShowCard from "../Components/TvShowCard";
 import GenreHeader from "../Components/GenreHeader"
+import { useFavoriteIds } from "../hooks/useFavoriteIds" // NEW
+
 function TvShows(){
     const container = "mx-auto w-full max-w-[1240px] px-4 sm:px-6"
     const [currentGenre , setCurrentGenre] = useState(null)
@@ -12,6 +14,7 @@ function TvShows(){
     const [tvShows , setTvShows] = useState({})
     const [errorMessage , setErrorMessage]= useState('');
     const [isLoadingGenres, setIsLoadingGenres] = useState(false)
+    const { favoriteIds } = useFavoriteIds() // NEW
     
     const getGenres = async () => {
         setIsLoadingGenres(true)
@@ -91,7 +94,10 @@ function TvShows(){
                 />
                 <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     {(tvShows[id] || []).slice(0, currentGenre ? 20 : 10).map((tvShow) => (
-                    <TvShowCard key={tvShow.id} tvShow={tvShow} />
+                    <TvShowCard
+                        key={tvShow.id}
+                        tvShow={{ ...tvShow, is_favorite: favoriteIds.has(`tv:${tvShow.id}`) }} // CHANGED
+                    />
                     ))}
                 </div>
                 </div>

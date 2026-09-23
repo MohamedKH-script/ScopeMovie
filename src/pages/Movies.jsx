@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { API_BASE_URL, API_OPTIONS } from '../Api'
 import MovieCard from "../Components/MovieCard";
 import GenreHeader from "../Components/GenreHeader"
+import { useFavoriteIds } from "../hooks/useFavoriteIds" // NEW
+
 function Movies(){
     const container = "mx-auto w-full max-w-[1240px] px-4 sm:px-6"
     const [currentGenre , setCurrentGenre] = useState(null)
@@ -12,6 +14,7 @@ function Movies(){
     const [movies , setMovies] = useState({})
     const [errorMessage , setErrorMessage]= useState('');
     const [isLoadingGenres, setIsLoadingGenres] = useState(false)
+    const { favoriteIds } = useFavoriteIds() // NEW
     
     const getGenres = async () => {
         setIsLoadingGenres(true)
@@ -92,7 +95,10 @@ function Movies(){
                 />
                 <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     {(movies[id] || []).slice(0, currentGenre ? 20 : 10).map((movie) => (
-                    <MovieCard key={movie.id} movie={movie} />
+                    <MovieCard
+                        key={movie.id}
+                        movie={{ ...movie, is_favorite: favoriteIds.has(`movie:${movie.id}`) }} // CHANGED
+                    />
                     ))}
                 </div>
                 </div>
