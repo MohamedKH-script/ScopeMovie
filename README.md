@@ -1,6 +1,6 @@
 # ScopeMovie
 
-> 🚧 **Work in progress:** this project is still under development. Some features are not finished yet.
+> ✅ **Status:** feature-complete for v1 — browsing, search, genres, auth, and favorites are all working.
 
 ScopeMovie is a movie and TV show discovery web app built with React, Vite and Tailwind CSS, using data from the TMDB API. It has its own Node.js/Express backend with a PostgreSQL database for user accounts. Browse what's trending, search for any title, explore content by genre, sign up or sign in, and (soon) keep your own watchlist.
 
@@ -12,7 +12,7 @@ ScopeMovie is a movie and TV show discovery web app built with React, Vite and T
 - [x] Movies page with genre sections
 - [x] TV Shows page with genre sections
 - [x] Sign up / Sign in with a Node.js + PostgreSQL backend
-- [ ] My List (save favorites)
+- [x] My List (save favorites)
 
 ## Tech Stack
 
@@ -68,6 +68,33 @@ Create a PostgreSQL database:
 ```sql
 CREATE DATABASE scopemovie;
 ```
+
+Create the required tables:
+
+```sql
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT now()
+);
+
+CREATE TABLE favorites (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  tmdb_id INTEGER NOT NULL,
+  media_type TEXT NOT NULL,
+  title TEXT,
+  poster_path TEXT,
+  vote_average NUMERIC,
+  release_date DATE,
+  original_language TEXT,
+  created_at TIMESTAMPTZ DEFAULT now(),
+  UNIQUE (user_id, tmdb_id, media_type)
+);
+```
+
+Session storage is handled automatically — `connect-pg-simple` creates its own `session` table on first run.
 
 Create `server/.env`:
 
