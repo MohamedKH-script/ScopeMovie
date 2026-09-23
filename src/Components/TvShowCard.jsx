@@ -1,6 +1,7 @@
 import { useState } from "react"
 import NoPoster from "./NoPoster"
 import { addFavorite, removeFavorite } from "../api/favorites"
+import { useAuth } from "../Context/AuthContext"
 
 const IMG_BASE = "https://image.tmdb.org/t/p/w500"
 const MEDIA_TYPE = "tv"
@@ -30,11 +31,12 @@ function TvShowCard({
   const [liked, setLiked] = useState(!!is_favorite)
   const [pending, setPending] = useState(false)
   const year = first_air_date ? new Date(first_air_date).getFullYear() : "N/A"
+  const { user } = useAuth()
 
   const toggleLike = async (e) => {
     e.preventDefault()
     e.stopPropagation()
-    if (pending) return
+    if (!user || pending) return
 
     const next = !liked
     setLiked(next) 
@@ -70,21 +72,23 @@ function TvShowCard({
         )}
 
         
-        <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-          <button
-            type="button"
-            onClick={toggleLike}
-            disabled={pending}
-            aria-label={liked ? "Unlike" : "Like"}
-            className={`flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-sm transition-transform duration-200 hover:scale-110 active:scale-95 disabled:opacity-60 ${
-              liked ? "bg-red-500 text-white" : "bg-white/15 text-white hover:bg-white/25"
-            }`}
-          >
-            <HeartIcon filled={liked} />
-          </button>
-        </div>
+        {user && (
+          <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <button
+              type="button"
+              onClick={toggleLike}
+              disabled={pending}
+              aria-label={liked ? "Unlike" : "Like"}
+              className={`flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-sm transition-transform duration-200 hover:scale-110 active:scale-95 disabled:opacity-60 ${
+                liked ? "bg-red-500 text-white" : "bg-white/15 text-white hover:bg-white/25"
+              }`}
+            >
+              <HeartIcon filled={liked} />
+            </button>
+          </div>
+        )}
 
-        {liked && (
+        {user && liked && (
           <span className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white">
             <HeartIcon filled />
           </span>

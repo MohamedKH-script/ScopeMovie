@@ -171,6 +171,5 @@ app.delete("/api/favorites/:mediaType/:tmdbId", requireAuth, async (req, res) =>
     res.status(500).json({ error: "Something went wrong" })
   }
 })
-
 // STEP 7: Start listening --------------------------------------------------
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`))
