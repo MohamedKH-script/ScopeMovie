@@ -6,6 +6,7 @@ import TvShows from "./pages/TvShows"
 import Login from "./pages/Login"
 import SignUp from "./pages/SignUp"
 import MyList from "./pages/MyList"
+import LegalPage from "./pages/LegalPage"
 function App(){
   return(<Routes>
       <Route element={<Layout />}>
@@ -15,6 +16,9 @@ function App(){
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/my-list" element={<MyList />} />
+        <Route path="/terms-of-use" element={<LegalPage />} />
+        <Route path="/privacy-policy" element={<LegalPage />} />
+        <Route path="/cookie-choices" element={<LegalPage />} />
       </Route>
     </Routes>)
 }

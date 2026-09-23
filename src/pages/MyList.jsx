@@ -52,7 +52,7 @@ function MyList() {
     filter === "movie" ? movies : filter === "tv" ? tvShows : favorites
 
   const grid = (items) => (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    <div className="grid grid-cols-1 gap-x-3 gap-y-8 min-[400px]:grid-cols-2 sm:gap-x-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
       {items.map((item) => (
         <SavedItemCard key={`${item.media_type}-${item.tmdb_id}`} item={item} onRemove={removeItem} />
       ))}

@@ -64,9 +64,9 @@ function TvShows(){
     const allGenres = [{ id: null, name: 'All Tv Shows' }, ...genres]
     return(
         <main>
-            <section className={`${container} py-10`}>
+            <section className={`${container} py-6 sm:py-10`}>
                 {errorMessage && <p className="text-red-500">{errorMessage}</p>}
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2 sm:gap-3">
                     {isLoadingGenres ?(<Spinner/>)
                     :(allGenres.map(({ id, name }) =>
                         currentGenre === id ? (
@@ -92,7 +92,7 @@ function TvShows(){
                 name={name}
                 onSeeAll={currentGenre ? null : () => setCurrentGenre(id)}
                 />
-                <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                <div className="grid grid-cols-1 gap-x-3 gap-y-8 min-[400px]:grid-cols-2 sm:gap-x-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                     {(tvShows[id] || []).slice(0, currentGenre ? 20 : 10).map((tvShow) => (
                     <TvShowCard
                         key={tvShow.id}
